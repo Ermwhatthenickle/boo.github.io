@@ -826,6 +826,7 @@ a:active, a:focus {
     flex-wrap: wrap;
     height: $library-filter-bar-height;
     overflow: hidden;
+    gap: 8px;
 }
 
 .spinner-wrapper {
@@ -834,4 +835,26 @@ a:active, a:focus {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.tag-filter-bar-item {
+    margin-right: .75rem;
+}
+
+.tag-button {
+    padding: .375rem .625rem;
+    margin-bottom: 6px;
+    /* background: $motion-primary; */
+    border-radius: .625rem;
+    color: $ui-white;
+    height: 28px;
+}
+
+.tag-button-icon {
+    max-width: 1rem;
+    max-height: 1rem;
+}
+
+.active {
+    background: $data-primary;
 }

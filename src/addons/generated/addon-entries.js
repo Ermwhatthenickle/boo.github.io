@@ -56,6 +56,7 @@ export default {
   "no-script-bumping": () => import(/* webpackChunkName: "addon-entry-no-script-bumping" */ "../addons/no-script-bumping/_runtime_entry.js"),
   "disable-stage-drag-select": () => import(/* webpackChunkName: "addon-entry-disable-stage-drag-select" */ "../addons/disable-stage-drag-select/_runtime_entry.js"),
   "move-to-top-bottom": () => import(/* webpackChunkName: "addon-default-entry" */ "../addons/move-to-top-bottom/_runtime_entry.js"),
+  "move-to-first-last": () => import(/* webpackChunkName: "addon-default-entry" */ "../addons/move-to-first-last/_runtime_entry.js"),
   "disable-paste-offset": () => import(/* webpackChunkName: "addon-entry-disable-paste-offset" */ "../addons/disable-paste-offset/_runtime_entry.js"),
   "block-duplicate": () => import(/* webpackChunkName: "addon-default-entry" */ "../addons/block-duplicate/_runtime_entry.js"),
   "rename-broadcasts": () => import(/* webpackChunkName: "addon-default-entry" */ "../addons/rename-broadcasts/_runtime_entry.js"),
@@ -84,4 +85,5 @@ export default {
   "toolbox-full-blocks-on-hover": () => import(/* webpackChunkName: "addon-entry-toolbox-full-blocks-on-hover" */ "../addons/toolbox-full-blocks-on-hover/_runtime_entry.js"),
   "merge-costumes": () => import(/* webpackChunkName: "addon-entry-merge-costumes" */ "../addons/merge-costumes/_runtime_entry.js"),
   "copy-reporter": () => import(/* webpackChunkName: "addon-default-entry" */ "../addons/copy-reporter/_runtime_entry.js"),
+  "block-pins": () => import(/* webpackChunkName: "addon-default-entry" */ "../addons/block-pins/_runtime_entry.js"),
 };

@@ -64,6 +64,7 @@ import customExtensionIcon from './custom/custom.svg';
 import penguinmodLibraryExtensionIcon from './penguinmod/library.svg';
 
 import turboBuilderIcon from './penguinmod/turbobuilder.png';
+import turboBuilderDevIcon from './penguinmod/turbobuilder-dev.png';
 
 import filesExtensionIcon from './penguinmod/extensions/files.png';
 import filesOldExtensionIcon from './penguinmod/extensions/files_old.png';
@@ -191,6 +192,12 @@ const menuItems = [
                 id="gui.extension.music.description"
             />
         ),
+        extraLabels: [
+            {
+                name: "Modified by",
+                value: "DinosaurMod"
+            }
+        ],
         featured: true
     },
     {
@@ -212,6 +219,12 @@ const menuItems = [
                 id="gui.extension.pen.description"
             />
         ),
+        extraLabels: [
+            {
+                name: "Modified by",
+                value: "PenguinMod"
+            }
+        ],
         featured: true
     },
     {
@@ -289,7 +302,13 @@ const menuItems = [
             />
         ),
         featured: true,
-        internetConnectionRequired: true
+        internetConnectionRequired: true,
+        extraLabels: [
+            {
+                name: "Modified by",
+                value: "PenguinMod"
+            }
+        ]
     },
     {
         name: (
@@ -336,6 +355,12 @@ const menuItems = [
                 id="gui.extension.translate.description"
             />
         ),
+        extraLabels: [
+            {
+                name: "Modified by",
+                value: "DinosaurMod"
+            }
+        ],
         featured: true,
         internetConnectionRequired: true
     },
@@ -1407,6 +1432,17 @@ const menuItems = [
         featured: true
     },
     {
+        name: 'XML',
+        extensionId: 'jwXML',
+        iconURL: 'https://studio.penguinmod.com/static/assets/664da05abbdb25fc499645258e587890.svg',
+        insetIconURL: PenguinmodThumb,
+        customInsetColor: '#00c3ff',
+        tags: ['penguinmod', 'datamgmt'],
+        description: 'Creating, parsing and modifying XML data.',
+        extDeveloper: 'jwklong',
+        featured: true
+    },
+    {
         name: 'Targets',
         extensionId: 'jwTargets',
         iconURL: 'https://studio.penguinmod.com/static/assets/174cbb7cc72418e5f095e0b734ceed1d.svg',
@@ -1753,7 +1789,7 @@ const menuItems = [
         name: 'TurboBuilder - Dev Branch',
         href: 'https://dev-turbobuilder.vercel.app/',
         extensionId: 'special_turboBuilderDev',
-        iconURL: 'https://studio.penguinmod.com/static/assets/78d464ee4e15000ce44b841ff2f4c518.png',
+        iconURL: turboBuilderDevIcon,
         description: 'Publicly available developer branch, with the latest features.',
         credits: 'Started by JeremyGamer13, continued by jwklong',
         tags: ['extcreate'],
@@ -1837,6 +1873,14 @@ if (IsLocal || IsLiveTests) {
             featured: true
         },
         {
+            name: 'Dinosaurmod\'s test extension',
+            extensionId: 'https://gabsthecuriouskid.github.io/DinosaurModExtensions/test.js',
+            iconURL: defaultExtensionIcon,
+            tags: ['dinosaurmod'],
+            description: 'Dinosaurmod\'s own Test Extension to see what\'s possible or not. DON\'T USE THIS IN PRODUCTION as blocks can change and may corrupt your projects.',
+            featured: true
+        },
+        {
             name: '(Old) JavaScript',
             extensionId: 'jgJavascript',
             iconURL: jgJavascriptExtensionIcon,
@@ -1899,7 +1943,7 @@ if (IsLocal || IsLiveTests) {
             description: 'Legacy extension that was eventually merged into the default toolbox.',
             featured: true
         },
-        {
+        /*{
             name: 'XML',
             extensionId: 'jwXml',
             iconURL: 'https://studio.penguinmod.com/static/assets/73077ae1577fa8af2e8544e19e447491.png',
@@ -1907,6 +1951,16 @@ if (IsLocal || IsLiveTests) {
             description: 'Enables the creation and getting of XML data. Not yet able to modify data.',
             extDeveloper: 'jwklong',
             featured: true
+        },*/
+        {
+            name: 'Functions and Tests',
+            extensionId: 'https://raw.githubusercontent.com/Dinosaurmod/extensions/refs/heads/main/src/extensions/jasmine.js',
+            iconURL: defaultExtensionIcon,
+            description: 'No description yet.',
+            featured: true,
+            disabled: true,
+            inspiredExt: 'Jasmine (JS Framework)',
+            extDeveloper: 'MrIncredibleMaker'
         },
         {
             name: 'TurboBuilder Extension',

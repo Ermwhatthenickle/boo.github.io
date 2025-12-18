@@ -106,6 +106,18 @@ export default async function ({ addon, console, msg }) {
         },
         noopSwitch,
       ];
+      blockSwitches["motion_movesteps"] = [
+        {
+          opcode: "motion_moveupdownsteps",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["motion_moveupdownsteps"] = [
+        {
+          opcode: "motion_movesteps",
+        },
+        noopSwitch,
+      ];
       blockSwitches["motion_gotoxy"] = [
         noopSwitch,
         {
@@ -185,10 +197,46 @@ export default async function ({ addon, console, msg }) {
         {
           opcode: "motion_yposition",
         },
+        {
+          opcode: "motion_direction",
+        },
+        {
+          opcode: "motion_rotationstyle",
+        },
       ];
       blockSwitches["motion_yposition"] = [
         {
           opcode: "motion_xposition",
+        },
+        {
+          opcode: "motion_direction",
+        },
+        {
+          opcode: "motion_rotationstyle",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["motion_direction"] = [
+        noopSwitch,
+        {
+          opcode: "motion_xposition",
+        },
+        {
+          opcode: "motion_yposition",
+        },
+        {
+          opcode: "motion_rotationstyle",
+        },
+      ];
+      blockSwitches["motion_rotationstyle"] = [
+        {
+          opcode: "motion_xposition",
+        },
+        {
+          opcode: "motion_yposition",
+        },
+        {
+          opcode: "motion_direction",
         },
         noopSwitch,
       ];
@@ -248,14 +296,38 @@ export default async function ({ addon, console, msg }) {
         noopSwitch,
       ];
       blockSwitches["looks_show"] = [
-        noopSwitch,
         {
           opcode: "looks_hide",
         },
+        noopSwitch,
       ];
       blockSwitches["looks_hide"] = [
         {
           opcode: "looks_show",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["looks_changeVisibilityOfSpriteShow"] = [
+        {
+          opcode: "looks_changeVisibilityOfSpriteHide",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["looks_changeVisibilityOfSpriteHide"] = [
+        {
+          opcode: "looks_changeVisibilityOfSpriteShow",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["looks_showallsprites"] = [
+        noopSwitch,
+        {
+          opcode: "looks_hideallsprites",
+        },
+      ];
+      blockSwitches["looks_hideallsprites"] = [
+        {
+          opcode: "looks_showallsprites",
         },
         noopSwitch,
       ];
@@ -414,6 +486,18 @@ export default async function ({ addon, console, msg }) {
         },
         noopSwitch,
       ];
+      blockSwitches["looks_getcostumelength"] = [
+        {
+          opcode: "looks_getbackdroplength",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["looks_getbackdroplength"] = [
+        {
+          opcode: "looks_getcostumelength",
+        },
+        noopSwitch,
+      ];
     }
 
     if (addon.settings.get("sound")) {
@@ -422,12 +506,21 @@ export default async function ({ addon, console, msg }) {
         {
           opcode: "sound_playuntildone",
         },
+        {
+          opcode: "sound_stop",
+        },
       ];
       blockSwitches["sound_playuntildone"] = [
         {
           opcode: "sound_play",
         },
         noopSwitch,
+      ];
+      blockSwitches["sound_stop"] = [
+        noopSwitch,
+        {
+          opcode: "sound_play",
+        },
       ];
       blockSwitches["sound_seteffectto"] = [
         noopSwitch,
@@ -452,6 +545,18 @@ export default async function ({ addon, console, msg }) {
           opcode: "sound_setvolumeto",
         },
         noopSwitch,
+      ];
+      blockSwitches["sound_stopallsounds"] = [
+        noopSwitch,
+        {
+          opcode: "sound_playallsounds",
+        },
+      ];
+      blockSwitches["sound_playallsounds"] = [
+        noopSwitch,
+        {
+          opcode: "sound_stopallsounds",
+        },
       ];
     }
 
@@ -530,9 +635,48 @@ export default async function ({ addon, console, msg }) {
         },
         noopSwitch,
       ];
+      blockSwitches["event_whengreaterthan"] = [
+        noopSwitch,
+        {
+          opcode: "event_whenlesserthan",
+        },
+      ];
+      blockSwitches["event_whenlesserthan"] = [
+        {
+          opcode: "event_whengreaterthan",
+        },
+        noopSwitch,
+      ];
     }
 
     if (addon.settings.get("control")) {
+      blockSwitches["control_wait"] = [
+        noopSwitch,
+        {
+          opcode: "control_waitsecondsoruntil",
+        },
+      ];
+      blockSwitches["control_waitsecondsoruntil"] = [
+        {
+          opcode: "control_wait",
+          splitInputs: ["CONDITION"],
+        },
+        noopSwitch,
+      ];
+      blockSwitches["control_repeat"] = [
+        {
+          opcode: "control_repeatForSeconds",
+          remapShadowType: { TIMES: "math_positive_number" },
+        },
+        noopSwitch,
+      ];
+      blockSwitches["control_repeatForSeconds"] = [
+        {
+          opcode: "control_repeat",
+          remapShadowType: { TIMES: "math_whole_number" },
+        },
+        noopSwitch,
+      ];
       blockSwitches["control_switch"] = [
         noopSwitch,
         {
@@ -566,6 +710,9 @@ export default async function ({ addon, console, msg }) {
           splitInputs: ["SUBSTACK"],
         },
         {
+          opcode: "control_while",
+        },
+        {
           opcode: "control_forever",
           splitInputs: ["CONDITION"],
         },
@@ -573,6 +720,18 @@ export default async function ({ addon, console, msg }) {
       blockSwitches["control_forever"] = [
         {
           opcode: "control_repeat_until",
+        },
+        {
+          opcode: "control_while",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["control_while"] = [
+        {
+          opcode: "control_repeat_until",
+        },
+        {
+          opcode: "control_forever",
         },
         noopSwitch,
       ];
@@ -591,6 +750,18 @@ export default async function ({ addon, console, msg }) {
       blockSwitches["control_decr_counter"] = [
         {
           opcode: "control_incr_counter",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["control_exitLoop"] = [
+        noopSwitch,
+        {
+          opcode: "control_continueLoop",
+        },
+      ];
+      blockSwitches["control_continueLoop"] = [
+        {
+          opcode: "control_exitLoop",
         },
         noopSwitch,
       ];
@@ -785,10 +956,25 @@ export default async function ({ addon, console, msg }) {
         {
           opcode: "operator_or",
         },
+        {
+          opcode: "operator_xor",
+        },
       ];
       blockSwitches["operator_or"] = [
         {
           opcode: "operator_and",
+        },
+        {
+          opcode: "operator_xor",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["operator_xor"] = [
+        {
+          opcode: "operator_and",
+        },
+        {
+          opcode: "operator_or",
         },
         noopSwitch,
       ];
@@ -816,6 +1002,42 @@ export default async function ({ addon, console, msg }) {
         },
         {
           opcode: "operator_falseBoolean",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["operator_contains"] = [
+        {
+          opcode: "operator_strictlyContains",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["operator_strictlyContains"] = [
+        {
+          opcode: "operator_contains",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["operator_newLine"] = [
+        {
+          opcode: "operator_tabCharacter",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["operator_tabCharacter"] = [
+        {
+          opcode: "operator_newLine",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["operator_toUpperLowerCase"] = [
+        {
+          opcode: "operator_isUpperLowerCase",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["operator_isUpperLowerCase"] = [
+        {
+          opcode: "operator_toUpperLowerCase",
         },
         noopSwitch,
       ];
@@ -849,6 +1071,56 @@ export default async function ({ addon, console, msg }) {
       blockSwitches["sensing_touchingobject"] = [
         {
           opcode: "event_whentouchingobject",
+        },
+        {
+          opcode: "sensing_objecttouchingobject",
+          createInputs: {
+            FULLTOUCHINGOBJECTMENU: {
+              shadowType: "sensing_fulltouchingobjectmenu",
+            },
+            SPRITETOUCHINGOBJECTMENU: {
+              shadowType: "sensing_touchingobjectmenusprites",
+            },
+          },
+        },
+        {
+          opcode: "sensing_objecttouchingclonesprite",
+          createInputs: {
+            FULLTOUCHINGOBJECTMENU: {
+              shadowType: "sensing_fulltouchingobjectmenu",
+            },
+            SPRITETOUCHINGOBJECTMENU: {
+              shadowType: "sensing_touchingobjectmenusprites",
+            },
+          },
+        },
+        noopSwitch,
+      ];
+      blockSwitches["sensing_objecttouchingobject"] = [
+        {
+          opcode: "sensing_objecttouchingclonesprite",
+        },
+        {
+          opcode: "sensing_touchingobject",
+          createInputs: {
+            TOUCHINGOBJECTMENU: {
+              shadowType: "sensing_touchingobjectmenu",
+            },
+          },
+        },
+        noopSwitch,
+      ];
+      blockSwitches["sensing_objecttouchingclonesprite"] = [
+        {
+          opcode: "sensing_objecttouchingobject",
+        },
+        {
+          opcode: "sensing_touchingobject",
+          createInputs: {
+            TOUCHINGOBJECTMENU: {
+              shadowType: "sensing_touchingobjectmenu",
+            },
+          },
         },
         noopSwitch,
       ];
@@ -904,6 +1176,57 @@ export default async function ({ addon, console, msg }) {
         },
         {
           opcode: "event_whenkeypressed",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["sensing_loudness"] = [
+        noopSwitch,
+        {
+          opcode: "sensing_loud",
+        },
+      ];
+      blockSwitches["sensing_loud"] = [
+        {
+          opcode: "sensing_loudness",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["sensing_resettimer"] = [
+        noopSwitch,
+        {
+          opcode: "sensing_pausetimer",
+        },
+        {
+          opcode: "sensing_resumetimer",
+        },
+      ];
+      blockSwitches["sensing_pausetimer"] = [
+        {
+          opcode: "sensing_resettimer",
+        },
+        {
+          opcode: "sensing_resumetimer",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["sensing_resumetimer"] = [
+        {
+          opcode: "sensing_resettimer",
+        },
+        {
+          opcode: "sensing_pausetimer",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["sensing_thing_is_text"] = [
+        {
+          opcode: "sensing_thing_is_number",
+        },
+        noopSwitch,
+      ];
+      blockSwitches["sensing_thing_is_number"] = [
+        {
+          opcode: "sensing_thing_is_text",
         },
         noopSwitch,
       ];
@@ -976,6 +1299,18 @@ export default async function ({ addon, console, msg }) {
               value: "1",
             },
           },
+        },
+        noopSwitch,
+      ];
+      blockSwitches["data_shufflelist"] = [
+        noopSwitch,
+        {
+          opcode: "data_reverselist",
+        },
+      ];
+      blockSwitches["data_reverselist"] = [
+        {
+          opcode: "data_shufflelist",
         },
         noopSwitch,
       ];
@@ -1443,6 +1778,7 @@ export default async function ({ addon, console, msg }) {
             text,
             callback: menuCallbackFactory(block, opcodeData),
             separator: i === 0,
+            color: addon.tab.getDefaultBlockColorFromString(opcodeData.opcode) ?? null
           });
         });
 

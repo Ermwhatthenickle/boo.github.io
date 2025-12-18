@@ -55,6 +55,7 @@ import _hide_delete_button from "../addons/hide-delete-button/_manifest_entry.js
 import _no_script_bumping from "../addons/no-script-bumping/_manifest_entry.js";
 import _disable_stage_drag_select from "../addons/disable-stage-drag-select/_manifest_entry.js";
 import _move_to_top_bottom from "../addons/move-to-top-bottom/_manifest_entry.js";
+import _move_to_first_last from "../addons/move-to-first-last/_manifest_entry.js";
 import _disable_paste_offset from "../addons/disable-paste-offset/_manifest_entry.js";
 import _block_duplicate from "../addons/block-duplicate/_manifest_entry.js";
 import _rename_broadcasts from "../addons/rename-broadcasts/_manifest_entry.js";
@@ -82,6 +83,7 @@ import _sounds_newgrounds_button from "../addons/sounds-newgrounds-button/_manif
 import _toolbox_full_blocks_on_hover from "../addons/toolbox-full-blocks-on-hover/_manifest_entry.js";
 import _merge_costumes from "../addons/merge-costumes/_manifest_entry.js";
 import _copy_reporter from "../addons/copy-reporter/_manifest_entry.js";
+import _block_pins from "../addons/block-pins/_manifest_entry.js";
 
 export default {
   "cat-blocks": _cat_blocks,
@@ -140,6 +142,7 @@ export default {
   "no-script-bumping": _no_script_bumping,
   "disable-stage-drag-select": _disable_stage_drag_select,
   "move-to-top-bottom": _move_to_top_bottom,
+  "move-to-first-last": _move_to_first_last,
   "disable-paste-offset": _disable_paste_offset,
   "block-duplicate": _block_duplicate,
   "rename-broadcasts": _rename_broadcasts,
@@ -168,4 +171,5 @@ export default {
   "toolbox-full-blocks-on-hover": _toolbox_full_blocks_on_hover,
   "merge-costumes": _merge_costumes,
   "copy-reporter": _copy_reporter,
+  "block-pins": _block_pins,
 };

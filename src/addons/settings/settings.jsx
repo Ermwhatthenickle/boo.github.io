@@ -41,10 +41,12 @@ import styles from './settings.css';
 import '../polyfill';
 import '../../lib/normalize.css';
 
+import TagButton from '../../containers/tag-button.jsx';
+
 import ReduxStore from '../settings-store-redux-store';
 
 //import LibraryComponent from './modified-library.jsx';
-//import addonTags from './addon-tags.js';
+import addonTags from './addon-tags.js';
 
 /* eslint-disable no-alert */
 /* eslint-disable no-console */
@@ -120,7 +122,7 @@ const groupAddons = () => {
     const manifests = Object.values(supportedAddons);
     for (let index = 0; index < manifests.length; index++) {
         const manifest = manifests[index];
-        if (manifest.tags.includes('new')) {
+        if (manifest.tags.includes('new') || manifest.tags.includes('newsettings')) {
             groups.new.addons.push(index);
         } else if (manifest.tags.includes('danger') || manifest.noCompiler) {
             groups.danger.addons.push(index);
@@ -233,7 +235,7 @@ const Tags = ({ manifest }) => (
                 {settingsTranslations.tagNew}
             </span>
         )}
-        {manifest.tags.includes('newSettings') && (
+        {manifest.tags.includes('newsettings') && (
             <span className={classNames(styles.tag, styles.tagNew)}>
                 {settingsTranslations.tagNewSettings}
             </span>
@@ -865,10 +867,26 @@ class AddonList extends React.Component {
     }
     render() {
         if (this.props.search) {
+            let tags = null;
+            if (this.props.tags) {
+                tags = this.props.tags;
+            }
             const addons = this.search.search(this.props.search)
                 .slice(0, 20)
                 .map(({ index }) => this.props.addons[index]);
-            if (addons.length === 0) {
+            let newAddons
+            if (tags.length === 0) {
+                newAddons = addons
+            } else {
+                newAddons = addons.filter((addon) => {
+                    const addonTags = addon.manifest.tags;
+                    const checks = tags.map((tag) => {
+                        return !!addonTags.includes(tag)
+                    });
+                    return !checks.includes(false)
+                })
+            }
+            if (newAddons.length === 0) {
                 return (
                     <div className={styles.noResults}>
                         {settingsTranslations.noResults}
@@ -878,7 +896,32 @@ class AddonList extends React.Component {
             return (
                 <div>
                     <InternalAddonList
-                        addons={addons}
+                        addons={newAddons}
+                        extended={this.props.extended}
+                    />
+                </div>
+            );
+        } else if (this.props.tags.length !== 0) {
+            let tags = this.props.tags;
+            const addons = this.props.addons;
+            let newAddons = addons.filter((addon) => {
+                const addonTags = addon.manifest.tags;
+                const checks = tags.map((tag) => {
+                    return !!addonTags.includes(tag)
+                });
+                return !checks.includes(false)
+            })
+            if (newAddons.length === 0) {
+                return (
+                    <div className={styles.noResults}>
+                        {settingsTranslations.noResults}
+                    </div>
+                );
+            }
+            return (
+                <div>
+                    <InternalAddonList
+                        addons={newAddons}
                         extended={this.props.extended}
                     />
                 </div>
@@ -906,6 +949,7 @@ AddonList.propTypes = {
         manifest: PropTypes.shape({}).isRequired
     })).isRequired,
     search: PropTypes.string.isRequired,
+    tags: PropTypes.array.isRequired,
     extended: PropTypes.bool.isRequired
 };
 
@@ -921,6 +965,7 @@ class AddonSettingsComponent extends React.Component {
         this.handleSearch = this.handleSearch.bind(this);
         this.handleClickSearchButton = this.handleClickSearchButton.bind(this);
         this.handleClickVersion = this.handleClickVersion.bind(this);
+        this.handleClickVersion = this.handleClickVersion.bind(this);
         this.searchRef = this.searchRef.bind(this);
         this.searchBar = null;
         this.state = {
@@ -928,7 +973,8 @@ class AddonSettingsComponent extends React.Component {
             dirty: false,
             search: location.hash ? location.hash.substr(1) : '',
             extended: false,
-            ...this.readFullAddonState()
+            ...this.readFullAddonState(),
+            selectedTags: []
         };
         if (Channels.changeChannel) {
             Channels.changeChannel.addEventListener('message', () => {
@@ -960,9 +1006,9 @@ class AddonSettingsComponent extends React.Component {
             }
             result[id] = addonState;
         }
-        console.log("AddonState: ", result)
-        console.log("Supported Addons: ", Object.entries(supportedAddons))
-        console.log("Unsupported Addons?: ", Object.entries(unsupportedAddons))
+        //console.log("AddonState: ", result)
+        //console.log("Supported Addons: ", Object.entries(supportedAddons))
+        //console.log("Unsupported Addons?: ", Object.entries(unsupportedAddons))
         return result;
     }
     handleSettingStoreChanged(e) {
@@ -1074,6 +1120,20 @@ class AddonSettingsComponent extends React.Component {
             e.preventDefault();
         }
     }
+    handleTagClick(tag) {
+        const index = this.state.selectedTags.indexOf(tag);
+        if (index > -1) {
+            this.state.selectedTags.splice(index, 1)
+            this.setState({
+                selectedTags: this.state.selectedTags
+            });
+        } else {
+            this.state.selectedTags.push(tag)
+            this.setState({
+                selectedTags: this.state.selectedTags
+            });
+        }
+    }
     
     render() {
         const addonState = Object.entries(supportedAddons).map(([id, manifest]) => ({
@@ -1089,6 +1149,16 @@ class AddonSettingsComponent extends React.Component {
             <div className={styles.container}>
                 <div className={styles.header}>
                     <div className={styles.section}>
+                        <a
+                            href="https://discord.gg/NZ9MBMYTZh"
+                            target="_blank"
+                            rel="noreferrer"
+                            className={styles.feedbackButtonOuter}
+                        >
+                            <span className={styles.feedbackButtonInner}>
+                                {settingsTranslations.addonFeedback}
+                            </span>
+                        </a>
                         <div className={styles.searchContainer}>
                             <input
                                 className={styles.searchInput}
@@ -1105,16 +1175,26 @@ class AddonSettingsComponent extends React.Component {
                                 onClick={this.handleClickSearchButton}
                             />
                         </div>
-                        <a
-                            href="https://discord.gg/NZ9MBMYTZh"
-                            target="_blank"
-                            rel="noreferrer"
-                            className={styles.feedbackButtonOuter}
-                        >
-                            <span className={styles.feedbackButtonInner}>
-                                {settingsTranslations.addonFeedback}
-                            </span>
-                        </a>
+                        <div className={styles.tagWrapper}>
+                            {addonTags.map((tagProps, id) => (
+                                <TagButton
+                                    active={this.state.selectedTags.indexOf(tagProps.tag.toLowerCase()) > -1}
+                                    className={classNames(
+                                        styles.tagfilterBarItem,
+                                        styles.tagButton,
+                                        //tagProps.className
+                                    )}
+                                    style={{
+                                        background: this.state.selectedTags.indexOf(tagProps.tag.toLowerCase()) > -1 ? "#ff8c1a" : tagProps.color ?? "#80f41a"
+                                    }}
+                                    deleteThisButton={tagProps.tag.toLowerCase() == 'delete'}
+                                    key={`tag-button-${id}`}
+                                    onClick={() => {this.handleTagClick(tagProps.tag.toLowerCase())}}
+                                    useCustomClassName={true}
+                                    {...tagProps}
+                                />
+                            ))}
+                        </div>
                     </div>
                     {this.state.dirty && (
                         <Dirty
@@ -1143,6 +1223,7 @@ class AddonSettingsComponent extends React.Component {
                             <AddonList
                                 addons={addonState}
                                 search={this.state.search}
+                                tags={this.state.selectedTags}
                                 extended={this.state.extended}
                             />
                             <div className={styles.footerButtons}>
